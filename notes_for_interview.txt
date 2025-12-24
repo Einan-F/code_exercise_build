@@ -1,0 +1,57 @@
+What to focus on when getting ready for the interview:
+===========================================================
+
+1. The prompt:
+	a. I started writing it before I got the email in anticipation of the job and then, I rewrote it a little and added parts. "I'm guessing..." -> either, I didn't get the email or I didn't yet read the meaning of the columns.
+	b. I worked long and hard on the first prompt in order to get a good first draft that would get me a good first draft.
+	c. There are some stuff, I would change in the initial prompt and add in retrospective -> all the non-commiting remarks. put all emphasis remarks together and clear. I think I wouldn't copy paste the exercise but rather state it in my words after I've read it carefully and decided what to include. copy-pasting was the fastest approach which will include everything.
+	d. I did it like this under the understanding that it would be hard to finish an exercise that checks all the boxes in an hour but I thought I would reach closer using LLMs and focus on prompting.
+2. Acknowledge that the exercise I built, was not short. How would I shorten it? Maybe remove the benchmark sub-exercise because it's been done. Go straight for the exploratory/generalization of the dataset after initial exploration and modeling- maybe also remove the variable selection strategies because I feel, there should be 1 (max 2) advanced analysis concepts so that the learning potential will be good.
+3. I also feel that the sharpness of the question is maybe a bit off. It's not clear what is the main message that I want the students learn - is it, how to inspect and famaliarize oneself with the data, is the main factors of interest in the specific data. Is it the generalization idea? I would like to decide on a specfici message and revolve around it. I quite like the idea of applicability of the classification model to other datasets but only if there are really datasets which this can be tested on available.
+4. One thing that is very important is to fact-check the output description of the dataset against the article of the generation the data. I don't have access to it. But according to the abstract, the nuclei were defined (segmented) semi manually, and then the calculation of different parameters was done automatically. Also, the parameters represent the mean, ste and worst (largest) which is a bit unclear. These facts are untrue or misleading:
+	a. "Investigate tumor heterogeneity and patient-specific phenotypes" -> what specific patient phenotypes?
+	b. "Cytopathologists manually outline cell nuclei and measure ~30 morphological features" -> it's 10 morphological features! 3 aspects of them. this wasn't clear to me during the exercise because I prefered to get quickly to something good that is complete and not to femiliarize myself with the data meanings but this wouldn't fly with me when working on a real exercise.
+	c. The table of features is not true. something got lost in translation and I wasn't familiar enough with the data to notice, nor did I have enough time to focus on cleaning the text and code appropriately.
+5. starting to go over the code, it seems that it's still using the data as it stored in the my computer instead of using the function: load_breast_cancer. I remember asking to use it. and it is imported but not used. instead, the data is being read from file.
+6. although it's not very big, the number of sections and exercises is not very good.
+7. cell 12 - line 55: there's inconsistancy in very high correlation definition 0.9/0.95
+8. cell 12: there's an import not moved to import section of PCA class.
+9. In the variable selection method, I meant more something about:
+	Wrapper methods assess different subsets of features by training a GLM on each subset and evaluating the model's performance using a specific metric (e.g., AIC, BIC, or cross-validation error). These methods are more computationally intensive but can result in better-performing models that consider feature interactions. 
+		Stepwise Selection: This common approach iteratively adds or removes features based on a predefined criterion.
+		Forward Selection: Starts with no features and gradually adds the most significant feature at each step until no further improvement is observed.
+		Backward Elimination: Starts with all features and removes the least significant feature one by one until the model performance no longer improves.
+		Tools like stepAIC in R can automate this process using information criteria.
+		and maybe also - Recursive Feature Elimination (RFE)
+10. In the logistic regression, I would present the model result in a statistical model view - coeff and p-value for every feature as well as overall p-value and other metrics - such as AIC and metrics shown.
+11. in XGBoost - gradient boosted decision tree - the importance parameter is Gain (default)
+	The default feature importance type for `XGBClassifier` in recent versions (using the Scikit-learn API) is 'gain', representing the average gain (improvement in accuracy) from splits using that feature, while older methods or direct Booster calls might default to 'weight' (number of times used). To be sure and control it, explicitly set importance_type='gain' or 'weight' when creating your XGBClassifier. 
+	Key Importance Types:
+		gain (Default for Scikit-learn API): Average improvement in accuracy brought by a feature across all splits.
+		weight: Number of times a feature is used to split the data across all trees.
+		cover: Average coverage (number of observations) related to a feature when it's used for a split. 
+12. Random Forest importance:
+	The default feature importance type for scikit-learn's RandomForestClassifier is impurity-based feature importance, also known as Mean Decrease in Impurity (MDI). This is accessible via the feature_importances_ attribute after fitting the model. 
+	How it is calculated
+		- The importance of a feature is determined by measuring how much it reduces the impurity (e.g., Gini impurity or entropy) at each split point in all the decision trees within the forest.
+		- The decreases in impurity are averaged across all trees in the ensemble.
+		- The final scores are normalized so that all feature importances sum up to 1. 
+	Considerations
+		- While easy to access, impurity-based importance has some known limitations: 
+		Bias towards high-cardinality features: It can inflate the importance of numerical features or categorical features with many unique values.
+		- Correlation issues: If features are correlated, their importance might be diluted among them, as the algorithm might randomly choose one over the other for a split.
+		- Training set bias: The importance is computed on statistics derived from the training dataset and does not reflect a feature's usefulness for predictions on unseen data (test set). 
+	For more reliable and robust feature importance, especially with correlated features or for understanding importance on unseen data, the permutation importance method is often recommended as an alternative. Scikit-learn provides the permutation_importance function for this purpose in its inspection module. 
+13. section 4.4, the text printed in the end is wrong regarding the results found. it found the XGBoost is be better in accuracy and pattern-discovery (which might be sensitivity) but log-reg is better at accuracy.
+14. it seems by the importance parameter in XGBoost that we can improve the simplicity of the model without reducing accuracy (goodness of fit) by using fewer features.
+15. it's a question if the PCA analysis should have been run on the training data or on all the data. I would have run it on all data (after scaling).
+16. Inertia is the within cluster, some of squared distances from the centroid. decreases with K
+17. For each point:
+	a: average distance to points in its own cluster
+	b: average distance to points in the nearest other cluster
+	s= (b−a) / max(a,b)
+The mean of all sample silhouettes.
+	- Penalizes overlapping clusters
+	- Balances compactness and separation
+	- Does not monotonically improve with k
+18. in 6.1, features are selected to show the difference between clusters based on meaning. but one can test using ANOVA which features show greater separation between clusters.
